@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DWeb</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="importmap">
+        {
+            "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.167.0/build/three.module.js",
+            "three/examples/jsm/loaders/GLTFLoader.js": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/loaders/GLTFLoader.js",
+            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/controls/OrbitControls.js"
+            }
+        }
+    </script>
+    <script src="js/script.js" defer></script>
+    <script type="module" src="js/3d.js"></script>  
+</head>
+<body>
+    <header>
+        <div class="logo"><img src="img/logo.png" alt="" class="logo__image"></div>
+        <nav class="gnav">
+            <ul class="gnav__list">
+                <li class="gnav__item">ダミーテキスト</li>
+                <li class="gnav__item">ダミーテキスト</li>
+                <li class="gnav__item">ダミーテキスト</li>
+                <li class="gnav__item">ダミーテキスト</li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="mainvisual">
+            <div class="mainvisual__image"><img src="img/24080604.png" alt=""></div>
+            <div class="mainvisual__discription">
+                <h2 class="mainvisual__title"><img src="img/logo.png" alt=""></h2>
+                <p class="mainvisual__sentences">
+                    きゅうたの冒険はいかがだったでしょうか？<br>
+                    今後もDLCなどでストーリーを拡張していきますので<br>
+                    是非お楽しみにしてください。<br>
+                    Project Sで使用されたモデルの保管庫です。<br>
+                    マップを選び、使用されたモデルを閲覧することができます。<br>
+                </p>
+            </div>
+            <div class=".cloud-layer"></div>
+        </section>
+        <section class="model-viewer">
+            <div class="model-viewer__about-model">
+                <div class="model-viewer__display"></div>
+                <div class="model-viewer__discription">
+                        <dl>
+                            <dt>自動販売機</dt>
+                            <dd>ごく普通の自動販売機</dd>
+                        </dl>
+                </div>
+                    <div class="model-viewer__buttons">
+                        <button class="model-viewer__button">モデルのダウンロード</button>
+                        <button class="model-viewer__button">詳しく見る</button>
+                    </div>
+            </div>
+            <div class="model-viewer__selector">
+                <h2 class="model-viewer__header">表示するモデルを選択してください</h2>
+                <ul class="model-viewer__list">
+                    <li class="model-viewer__item">自販機</li>
+                    <li class="model-viewer__item">公衆電話</li>
+                    <li class="model-viewer__item">レジ</li>
+                    <li class="model-viewer__item">アイスケース</li>
+                    <li class="model-viewer__item">肉まん</li>
+                    <li class="model-viewer__item">フライヤー</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+    <!-- <footer>
+        <nav class="footer">
+            <ul class="footer__list">
+                <li class="footer__item">ダミーテキスト</li>
+                <li class="footer__item">ダミーテキスト</li>
+                <li class="footer__item">ダミーテキスト</li>
+                <li class="footer__item">ダミーテキスト</li>
+                <li class="footer__item">ダミーテキスト</li>
+            </ul>
+        </nav>
+    </footer> -->
+</body>
+</html> 
