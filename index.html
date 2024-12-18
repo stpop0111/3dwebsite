@@ -6,6 +6,9 @@
     <title>3DWeb</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
     <script type="importmap">
         {
             "imports": {
@@ -16,6 +19,7 @@
         }
     </script>
     <script src="js/script.js" defer></script>
+    <script src="js/model.js" defer></script>
     <script type="module" src="js/3d.js"></script>  
 </head>
 <body>
@@ -46,34 +50,33 @@
             <div class=".cloud-layer"></div>
         </section>
         <section class="model-viewer">
-            <div class="model-viewer__about-model">
-                <div class="model-viewer__display"></div>
-                <div class="model-viewer__discription">
-                        <dl>
-                            <dt>自動販売機</dt>
-                            <dd>ごく普通の自動販売機</dd>
-                        </dl>
-                </div>
-                    <div class="model-viewer__buttons">
-                        <button class="model-viewer__button">モデルのダウンロード</button>
-                        <button class="model-viewer__button">詳しく見る</button>
-                    </div>
-            </div>
             <div class="model-viewer__selector">
-                <h2 class="model-viewer__header">表示するモデルを選択してください</h2>
+                <h2 class="model-viewer__header">モデル一覧</h2>
                 <ul class="model-viewer__list">
                     <li class="model-viewer__item">自販機</li>
                     <li class="model-viewer__item">公衆電話</li>
                     <li class="model-viewer__item">レジ</li>
                     <li class="model-viewer__item">アイスケース</li>
                     <li class="model-viewer__item">肉まん</li>
-                    <li class="model-viewer__item">フライヤー</li>
+                    <!-- <li class="model-viewer__item">フライヤー</li> -->
                 </ul>
+            </div>
+            <div class="model-viewer__about-model">
+                <div class="model-viewer__display-wrapper">
+                    <div class="model-viewer__display"></div>
+                </div>
+                <div class="model-viewer__discription">
+                    <p class="model-viewer__model-discription">ごく普通の自動販売機</p>
+                    <div class="model-viewer__buttons">
+                        <button class="model-viewer__button download_button">モデルのダウンロード</button>
+                        <button class="model-viewer__button detail_button">詳しく見る</button>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
-    <!-- <footer>
+    <!-- <footer>sono
         <nav class="footer">
             <ul class="footer__list">
                 <li class="footer__item">ダミーテキスト</li>

@@ -1,8 +1,26 @@
 @charset "utf-8";
 
+:root{
+    /* 色 */
+    --color-main:#F5EFFF;
+    --color-sub01:#E5D9F2;
+    --color-sub02:#CDC1FF;
+    --color-sub03:#A294F9;
+
+    /* スペース */
+    --space-l:4rem;
+    --space-m:2rem;
+    --space-s:1rem;
+    --space-s-harf:0.5rem;
+
+    /* フォント */
+    --font-main:"Dela Gothic One";
+    --font-sub01:"Zen Old Mincho";
+}
+
 html, body, main{
     width: 100%;
-    font-family: "Zen Old Mincho", serif;
+    font-family: "Dela Gothic One", serif;
 }
 
 body{
@@ -11,6 +29,7 @@ body{
 
 canvas{
     width: 100%;
+    display: block;
 }
 
 /* ナビゲーション 
@@ -131,79 +150,117 @@ header{
 /* モデルビューコンテンツ
 ============================*/
 .model-viewer{
-    position: relative;
-    padding-top: 30px;
-    width: 100%;
-    height: auto;
     display: flex;
-    gap: 30px;
-    flex-direction: column;
+    position: relative;
+    padding: 2rem;
+    margin: auto;
+    justify-content: center;
+    width: 100%;
+    height: 60rem;
+    gap: 2rem;
     background: url(../img/redsky_01.png) no-repeat;
     background-size: cover;
     z-index: 2;
-    border-radius: 30px;
+    border-radius: 1rem;
 }
 
 /* モデルセレクター */
 
 .model-viewer__selector{
-    border-radius: 3rem 3rem 0 0;
-    width: 80%;
-    margin: auto;
+    border-radius: 3rem;
+    width: 40%;
+    min-width: 600px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    background: #ffffff;
-    padding: 2rem 12rem;
+    background-color: var(--color-sub01);
+    overflow: hidden;
+    border: 4px solid var(--color-sub03);
 }
 
 .model-viewer__header{
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2.8rem;
+    margin-top: 1rem;
     text-align: center;
 }
 
 .model-viewer__list{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem
+    grid-template-columns: repeat(1, 1fr);
+    margin: 1rem;
+    padding: 1rem;
+    gap: 1rem;
+    background-color: var(--color-main);
+    border: 4px solid var(--color-sub03);
+    border-radius: 2rem;
+    height: 100%;
 }
 
 .model-viewer__item{
+    background-color: var(--color-sub03);
+    color: var(--color-sub01);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
-    border: 1px solid #ccc;
+    border-radius: 2rem;
     font-size: 2rem;
-    padding: 2rem 0;
+    font-weight: 200;
+    padding: 1rem 0;
     transition: all 0.3s ease;
 }
 
 /* モデル説明 */
-
 .model-viewer__about-model {
-    margin: 0 auto;
-    width: min(30rem, 90%);
+    width: 100%;
+    max-width: 900px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border-radius: 1rem;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    overflow: hidden;
-    background-color: #e9e9e9;
+    /* overflow: hidden; */
+}
+
+.model-viewer__display-wrapper{
+    width: 100%;
+    aspect-ratio: 1;
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    background-color: var(--color-sub03);
+    padding: var(--space-m);
+    border-radius: var(--space-m);
+    border: 4px solid var(--color-sub01);
 }
 
 /* モデル表示エリア */
 .model-viewer__display {
-    width: 100%;
-    aspect-ratio: 1;
-    position: relative;
+    height: 100%;
+    background-color: var(--color-main);
+    border-radius: var(--space-m);
+}
+
+.model-viewer__display::after{
+    content: "自動販売機";
+    top: var(--space-l);
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    z-index: 4;
+    font-size: 4rem;
+    font-weight: 200;
+    color: #ff0000;
+    background-color: #d3d2d2;
+    mix-blend-mode: difference;
+    letter-spacing: 1px;
+    width: 70%;
+    border-radius: 2.5rem;
+    text-align: center;
 }
 
 /* 説明エリア */
 .model-viewer__discription {
     padding: 1rem;
+    background-color: #F5EFFF;
+    border-radius: var(--space-m);
+    border: 4px solid var(--color-sub03);
 }
 
 .model-viewer__title {
@@ -234,8 +291,26 @@ header{
 .model-viewer__button{
     display: block;
     width: 100%;
-    border-radius: 3rem;
-    padding: 1.8rem;
+    font-size: calc(var(--space-m)/1.3);
+    font-family: var(--font-main);
+    font-weight: 200;
+    border-radius: var(--space-m);
+    color: var(--color-main);
+    background-color: var(--color-sub02);
+    padding: var(--space-m);
+    border: 4px solid var(--color-sub03);
+}
+
+/* ダウンロードボタン特有のスタイル */
+.model-viewer__button.download_button {
+    background-color: var(--color-sub03);
+    color: #fff;
+}
+
+/* 詳細ボタン特有のスタイル */
+.model-viewer__button.detail_button {
+    background-color: var(--color-main);
+    color: #222;
 }
 
 /* フッター
