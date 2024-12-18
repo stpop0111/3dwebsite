@@ -202,7 +202,7 @@ class MainVisual {
         if(!this.model) return;
     
         //ホバー時のモデルの滑らかさ
-        const smoothness = 0.02;
+        const smoothness = .2;
 
         const rect = this.canvas.getBoundingClientRect(); //canvas要素の幅と位置を取得
         const x = ((e.clientX - rect.left) / rect.width) * 2 - 1; //canvas要素の位置と幅からマウスポインターが要素のどこに位置するかを計算
