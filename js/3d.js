@@ -18,14 +18,20 @@ class MainVisual {
         this.mainLight = null;
         this.subLight01 = null;
         this.canvas = null;
+
+        this.targetRotation = null;
+        this.baseRotation = 0;
+        this.autoRotation = 0;
+        this.modelData = MODEL_DATA;  
+        this.currentModel = null;
+
+        this.mixer = null;
+        this.currentAnimation = null;
+        this.isPlaying = false;
         this.isHovering = false;
+        this.isTransitioning = false;
+
         this.init();
-        this.isTransitioning = false;  // ✨ 遷移状態の管理
-        this.targetRotation = null;    // ✨ 目標の回転値
-        this.baseRotation = 0;  // 基準となる回転値
-        this.autoRotation = 0;              // 自動回転の進行度
-        this.modelData = MODEL_DATA;  // 追加
-        this.currentModel = null;     // 追加
     }
 
     //初期化設定
@@ -159,9 +165,9 @@ class MainVisual {
         })
     }
 
+    //モデル配置
     async switchModel(modelID) {
-
-        const modelData = MODEL_DATA[modelID];
+        const modelData = this.modelData = MODEL_DATA[modelID];
 
         //表示モデルの削除
         if(this.currentModel) {
@@ -173,6 +179,9 @@ class MainVisual {
             const gltf = await loader.loadAsync(modelData.path);
             this.currentModel = gltf.scene;
 
+            this.mixer = new THREE.AnimationMixer(this.currentModel);
+            this.currentModel.animations = gltf.animations;
+
             // モデルのサイズや位置
             this.currentModel.scale.set(1, 1, 1);
             this.currentModel.position.set(0,0,0);
@@ -181,6 +190,7 @@ class MainVisual {
             this.scene.add(this.currentModel);
 
             this.updateModelInfo(modelData);
+            this.setupAnimationButtons();
         } catch (error){
             console.error('モデルの読み込みエラー:', error);
         }
@@ -199,8 +209,7 @@ class MainVisual {
 
     }
 
-    /*モデルローディング
-    ===================*/
+    // 初期モデルローディング
     setupLoadModel(){
         this.switchModel('vendingMachine')
     }
@@ -233,9 +242,14 @@ class MainVisual {
     animate() {
         requestAnimationFrame(() => this.animate());
 
+        const delta = this.clock.getDelta();
+
+        if(this.mixer){
+            this.mixer.update(delta);
+        }
+
         if(this.currentModel) {
             // 通常の回転速度を計算
-            const delta = this.clock.getDelta();
             const rotationSpeed = 1;
             
             if(this.isHovering) {
@@ -249,10 +263,9 @@ class MainVisual {
                 }
             const speedSmoothness = .2;
             this.currentRotationSpeed += (rotationSpeed - this.currentRotationSpeed) * speedSmoothness;
-                
-
-                // 現在の速度で回転
-                this.currentModel.rotation.y += delta * this.currentRotationSpeed;
+            
+            // 現在の速度で回転
+            this.currentModel.rotation.y += delta * this.currentRotationSpeed;
             }
         }
 
@@ -283,6 +296,76 @@ class MainVisual {
         this.currentModel.rotation.y += diff * smoothness;
     }
     
+    /*アニメーション再生ボタンの作成
+    ===================*/
+    setupAnimationButtons(){
+        const buttonsContainer = document.querySelector('.model-viewer__animation-buttons');
+        const buttonControls = document.querySelector('.model-viewer__animation-controls');
+
+        buttonsContainer.innerHTML = '';
+
+        if(!this.modelData?.animation?.hasAnimation){
+            buttonControls.style.display = 'none';
+            return;
+        }
+        buttonControls.style.display = 'flex';
+
+        //ボタンを生成
+        this.modelData.animation.clips.forEach((clip,index) => {
+            const button = document.createElement('button');
+            button.className = `model-viewer__animation-button ${index === 0 ? 'active' : ''}`;
+            button.textContent = clip.displayName;
+            button.dataset.clipName = clip.name;
+            buttonsContainer.appendChild(button);
+        })
+
+        this.setupAnimationListners()
+    }
+
+    playAnimation(clipName){
+        if(!this.currentModel || !this.mixer) return;
+
+        if(this.currentAction){
+            this.currentAction.stop();  // アニメーションを停止
+            this.currentAction.reset(); // 状態をリセット
+            this.mixer.stopAllAction(); // すべてのアニメーションを確実に停止
+        }
+
+        const clip = this.currentModel.animations.find(
+            anim => anim.name === clipName
+        );
+
+        if(clip){
+            this.currentAction = this.mixer.clipAction(clip);
+                if(this.modelData?.animation){
+                    this.currentAction.setLoop(
+                        this.modelData.animation.loop ? THREE.LoopRepeat : THREE.LoopOnce
+                    );
+                if(this.modelData.animation.duration){
+                this.currentAction.timeScale = 1 / this.modelData.animation.duration;
+                };
+                }
+
+            this.currentAction.reset();
+            this.currentAction.play();
+        }
+    }
+
+    setupAnimationListners(){
+
+        const buttons = document.querySelectorAll('.model-viewer__animation-button');
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // アクティブ状態の更新
+                document.querySelector('.active')?.classList.remove('active');
+                button.classList.add('active');
+                
+                // アニメーション再生
+                this.playAnimation(button.dataset.clipName);
+            });
+        });
+    }
 
 }
 

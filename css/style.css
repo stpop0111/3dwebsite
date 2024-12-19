@@ -18,7 +18,7 @@
     --font-sub01:"Zen Old Mincho";
 }
 
-html, body, main{
+html, body, main, img{
     width: 100%;
     font-family: "Dela Gothic One", serif;
     font-weight: 100;
@@ -87,7 +87,8 @@ header{
 
 .mainvisual{
     position: relative;
-    height: 60rem;
+    height: 60vh;
+    min-height: 600px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -135,18 +136,18 @@ header{
     font-size: 1.2rem;
 }
 
-/* .model-viewer::before{
-    content: '';
-    position: absolute;
-    background: url(../img/cloud01.png) no-repeat;
-    background-size: cover;
-    background-position: center center;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    top: -60%;
-    left: 0;
-} */
+/* マップセレクターコンテンツ
+============================*/
+.map-selector{
+    position: relative;
+    height: 80vh;
+    min-width: 800px;
+    bottom: -1.5rem;
+    z-index: 2;
+    background: var(--color-sub02);
+    border-radius: 1rem;
+}
+
 
 /* モデルビューコンテンツ
 ============================*/
@@ -157,16 +158,16 @@ header{
     margin: auto;
     justify-content: center;
     width: 100%;
-    height: 60rem;
+    height: 80vh;
+    min-height: 1000px;
     gap: 2rem;
-    background: url(../img/redsky_01.png) no-repeat;
+    background: var(--color-main);
     background-size: cover;
-    z-index: 2;
+    z-index: 3;
     border-radius: 1rem;
 }
 
 /* モデルセレクター */
-
 .model-viewer__selector{
     border-radius: 3rem;
     height: 100%;
@@ -177,20 +178,21 @@ header{
     background-color: var(--color-sub01);
     overflow: hidden;
     border: 4px solid var(--color-sub03);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
 }
+
 
 .model-viewer__header{
     font-size: 2.8rem;
     margin-top: 1rem;
     text-align: center;
     font-weight: 100;
-    -webkit-text-stroke: 1px var(--color-sub03);
 }
 
 .model-viewer__list {
     /* ベースの設定 */
-    display: flex;           /* グリッドからフレックスに変更 */
-    flex-direction: column;  /* 縦方向のフレックス */
+    display: flex;           
+    flex-direction: column;  
     margin: 1rem;
     padding: 1rem;
     gap: 1rem;
@@ -199,8 +201,8 @@ header{
     border-radius: 2rem;
     height: 100%;
     overflow-y: auto;
-    -ms-overflow-style: none;    /* IE, Edge 対応 */
-    scrollbar-width: none;       /* Firefox 対応 */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .model-viewer__item {
@@ -216,9 +218,17 @@ header{
     padding: 1rem 0;
     transition: all 0.3s ease;
     font-size: 48px;
-    /* ここがポイント！ */
-    flex: 0 0 calc((100% - 3rem) / 4);  /* 高さを4等分（3remはgapの合計） */
+    flex: 0 0 calc((100% - 4rem) / 4);
+    transition: all 0.3s ease;
 }
+
+.model-viewer__item:hover{
+    background-color: var(--color-sub02);
+    color: var(--color-sub03);
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.3);
+}
+
 /* モデル説明 */
 .model-viewer__about-model {
     width: 100%;
@@ -239,18 +249,65 @@ header{
     padding: var(--space-m);
     border-radius: var(--space-m);
     border: 4px solid var(--color-sub01);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
 }
 
 /* モデル表示エリア */
 .model-viewer__display {
+    position: relative;
     height: 100%;
     background-color: var(--color-main);
     border-radius: var(--space-s);
+    border:solid 3px var(--color-sub02);
+    overflow: hidden;
+}
+
+.model-viewer__animation-controls {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.model-viewer__animation-selector {
+    background-color: var(--color-sub03);
+    border-radius: 99px;
+    padding: 0.5rem;
+}
+
+.model-viewer__animation-buttons {
+    display: flex;
+    gap: var(--space-s-harf);
+}
+
+/* アニメーションボタンのスタイル */
+.model-viewer__animation-button {
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    background-color: var(--color-main);
+    color: var(--color-sub03);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    border: 3px solid var(--color-sub01);
+    font-family: var(--font-main);
+}
+
+.model-viewer__animation-button.active {
+    background-color: var(--color-sub02);
+    color: var(--color-main);
+}
+
+/* ホバー効果の追加 */
+.model-viewer__animation-button:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
 .model-viewer__display::after {
     content: var(--model-title);
-    top: var(--space-l);
+    top: 1rem;
     left: 50%;
     transform: translateX(-50%);
     position: absolute;
@@ -272,6 +329,8 @@ header{
     background-color: #F5EFFF;
     border-radius: var(--space-m);
     border: 4px solid var(--color-sub03);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+
 }
 
 .model-viewer__title {
@@ -328,32 +387,3 @@ header{
     background-color: var(--color-main);
     color: #222;
 }
-
-/* フッター
-============================*/
-
-footer{
-    height: 6rem;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    background-color: #ccc;
-    padding: 2.5rem;
-}
-
-.footer{
-    display: flex;
-    align-items: center;
-}
-
-.footer__list{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-
-.footer__item{
-    display: flex;
-    align-items: center;
-}
-
