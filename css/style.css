@@ -24,10 +24,6 @@ html, body, main, img{
     font-weight: 100;
 }
 
-body{
-    min-height: 100vh;
-}
-
 canvas{
     width: 100%;
     display: block;
@@ -87,8 +83,7 @@ header{
 
 .mainvisual{
     position: relative;
-    height: 60vh;
-    min-height: 600px;
+    height: 100vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -386,4 +381,35 @@ header{
 .model-viewer__button.detail_button {
     background-color: var(--color-main);
     color: #222;
+}
+
+/*============================
+ギャラリー
+============================*/
+.gallery{
+    position: relative;
+    height: 80vh;
+}
+
+.gallery__image-cards{
+    position: inherit;
+    height: 100%;
+}
+
+.gallery__image-card{
+    top: 30%;
+    position: absolute;
+    z-index: 20;
+    height: 500px;
+    width: 200px;
+}
+
+.gallery__image-card.card01{
+    background: #000;
+    left: 40%;
+}
+
+.gallery__image-card.card02{
+    background: #000;
+    left: 50%;
 }
