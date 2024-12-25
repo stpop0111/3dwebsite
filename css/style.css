@@ -81,7 +81,7 @@ header{
 ============================*/
 .mainvisual{
     position: relative;
-    height: 60vh;
+    height: 100vh;
     min-height: 600px;
     display: flex;
     justify-content: center;
