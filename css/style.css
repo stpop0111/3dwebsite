@@ -33,7 +33,7 @@ canvas{
 ============================*/
 header{
     position: fixed;
-    width: 80%;
+    width: 80vw;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -43,27 +43,23 @@ header{
     right: 50%;
     transform: translateX(50%);
     border-radius: 0 0 30px 30px;
-    background: #fff;
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Safari対応 */
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* ロゴ */
 .logo{
     display: flex;
-    align-items: center;
-    width: 10rem;
-    height: 100%;
-    text-align: center;
-    opacity: 1;
-}
-
-.logo__image{
-    width: 100%;
+    justify-items: center;
+    width: 400px;
 }
 
 /* ナビゲーションバー*/
 .gnav{
     opacity: 1;
+    display: flex;
+    gap: var(--space-m);
 }
 
 .gnav__list{
