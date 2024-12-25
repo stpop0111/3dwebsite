@@ -103,17 +103,6 @@ header{
     brightness(0.7)
 }
 
-.mainvisual__discription{
-    background:#ffffff;
-    padding: 3rem;
-    border-radius: calc(1rem / 2);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    width: 60vw;
-    max-width: 600px;
-}
 
 .mainvisual__title{
     font-size: 3rem;
