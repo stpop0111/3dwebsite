@@ -277,22 +277,17 @@ class MainVisual {
     updateModelRotation(e) {
         if(!this.currentModel) return;
     
-        //ホバー時のモデルの滑らかさ
         const smoothness = .2;
-
-        const rect = this.canvas.getBoundingClientRect(); //canvas要素の幅と位置を取得
-        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1; //canvas要素の位置と幅からマウスポインターが要素のどこに位置するかを計算
+        const rect = this.canvas.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         
-        //現在の回転を0-2πの範囲に正規化
-        const normalizedCurrentRotation = this.currentModel.rotation.y % (Math.PI * 2);
+        const rotationLimit = Math.PI / 4;
+        const targetRotation = x * rotationLimit;
         
-        const rotationLimit = Math.PI / 4; //回転可能な範囲
-        const targetRotation = x * rotationLimit; //マウスポインターが右端なら 90 + (1 * 90) = 180
+        // 現在の回転値を0-2πの範囲に収める
+        this.currentModel.rotation.y = this.currentModel.rotation.y % (Math.PI * 2);
         
-        // 🔄 正規化された値で差分を計算
-        const diff = ((targetRotation - normalizedCurrentRotation) + Math.PI) % (Math.PI * 2) - Math.PI;
-        
-        // 現在の実際の回転値に適用
+        const diff = targetRotation - this.currentModel.rotation.y;
         this.currentModel.rotation.y += diff * smoothness;
     }
     
