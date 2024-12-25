@@ -24,10 +24,6 @@ html, body, main, img{
     font-weight: 100;
 }
 
-body{
-    min-height: 100vh;
-}
-
 canvas{
     width: 100%;
     display: block;
@@ -85,7 +81,7 @@ header{
 ============================*/
 .mainvisual{
     position: relative;
-    height: 100vh;
+    height: 60vh;
     min-height: 600px;
     display: flex;
     justify-content: center;
