@@ -6,6 +6,7 @@
     <title>3DWeb</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/curor.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Old+Mincho&display=swap" rel="stylesheet">
@@ -20,11 +21,11 @@
     </script>
     <script src="js/script.js" defer></script>
     <script type="module" src="js/model.js" defer></script>
-    <script type="module" src="js/3d.js"></script>  
+    <script type="module" src="js/3d.js"></script>
 </head>
 <body>
     <header>
-        <div class="logo"><img src="img/logo.png" alt="" class="logo__image"></div>
+        <div class="logo"><img src="img/title.svg" alt="" class="logo__image"></div>
         <nav class="gnav">
             <ul class="gnav__list">
                 <li class="gnav__item">ダミーテキスト</li>
@@ -38,19 +39,14 @@
         <section class="mainvisual">
             <div class="mainvisual__image"><img src="img/24080604.png" alt=""></div>
             <div class="mainvisual__discription">
-                <h2 class="mainvisual__title"><img src="img/logo.png" alt=""></h2>
-                <p class="mainvisual__sentences">
-                    きゅうたの冒険はいかがだったでしょうか？<br>
-                    今後もDLCなどでストーリーを拡張していきますので<br>
-                    是非お楽しみにしてください。<br>
-                    Project Sで使用されたモデルの保管庫です。<br>
-                    マップを選び、使用されたモデルを閲覧することができます。<br>
-                </p>
+                <div class="mainvisual__title"><img src="img/title.svg" alt=""></div>
             </div>
             <div class=".cloud-layer"></div>
         </section>
         <section class="map-selector">
-            
+                <h2 class="map-selector__header">東雲市のマップ一覧</h2>
+                <div class="map-selecotr__slider"></div>
+            </div>
         </section>
         <section class="model-viewer">
             <div class="model-viewer__selector">
