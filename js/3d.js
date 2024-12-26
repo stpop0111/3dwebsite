@@ -2,6 +2,10 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DirectionalLightHelper } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 
 //モデルデータのインポート
 import { MODEL_DATA } from "./model.js";
@@ -61,6 +65,7 @@ class MainVisual {
     =============================*/
     setupScene(){
         this.scene = new THREE.Scene();
+        this.scene.background = null;
     }
 
     /*カメラセットアップ
@@ -123,28 +128,17 @@ class MainVisual {
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
-            precision: 'highp',
-            powerPreference: 'high-performance',
+            premultipliedAlpha: false,
+            stencil: false,
         });
 
-        //物理ベースのレンダリング設定
-        this.renderer.physicallyCorrectLights = true;
-        this.renderer.outputEncoding = THREE.sRGBEncoding;
-        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.0;
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    
-        // 💡 HDRレンダリングの有効化
-        this.renderer.gammaFactor = 2.2;
-        this.renderer.gammaOutput = true;
+        this.renderer.setClearColor(0x000000, 0);
 
         //レンダラーのサイズ設定
         this.renderer.setSize(
             this.container.clientWidth,
             this.container.clientHeight,
         );
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         this.canvas = this.renderer.domElement
         this.container.appendChild(this.canvas);
@@ -154,26 +148,47 @@ class MainVisual {
 
     // ポストプロセス
     setupPostProcessing(){
-        const composer = new EffectComposer(this.renderer)
 
+        const renderTarget = new THREE.WebGLRenderTarget(
+            this.container.clientWidth,
+            this.container.clientHeight,
+            {
+                format: THREE.RGBAFormat,
+                alpha: true,
+                transparent: true,
+                premultipliedAlpha: false,
+                stencilBuffer: false,
+                depthBuffer: true,
+                encoding: THREE.sRGBEncoding
+            }
+        )
+        renderTarget.samples = 4;
+
+        const composer = new EffectComposer(this.renderer, renderTarget);
+
+        //レンダリング設定
         const renderPass = new RenderPass(this.scene, this.camera);
+        renderPass.clear = true;  // 👈 追加
+        renderPass.clearColor = new THREE.Color(0, 0, 0);
+        renderPass.clearAlpha = 0;
         composer.addPass(renderPass);
+    
 
-        const ssaoPass = new SSAOPass(this.scene, this.camera);
-        composer.addPass(ssaoPass);
-
-        const bloomPass = new UnrealBloomPass(
-            new THREE.Vector2(window.innerWidth, window.innerHeight),
-            1.5, 0.4, 0.85
+        const BloomPass = new UnrealBloomPass(
+            new THREE.Vector2(this.container.clientWidth,this.container.clientHeight),
+                0.5, //強度
+                0.4, //半径
+                0.85 //閾値
         );
-        composer.addPass(bloomPass)
+        // BloomPass.renderToScreen = true;
+        composer.addPass(BloomPass);
+        // BloomPass.setClearColor(new THREE.Color(0x000000), 0);
 
-        this.composer = composer;
+        this.composer = composer
     }
 
     /*モデルのロード
     ===================*/
-
     // ボタンの作成
     setupModelList(){
         //モデルリストの要素取得
@@ -304,8 +319,8 @@ class MainVisual {
             this.currentModel.rotation.y += delta * this.currentRotationSpeed;
             }
         }
-
-        this.renderer.render(this.scene, this.camera);
+        this.composer.render(this.clock.getDelta());
+        // this.renderer.render(this.scene, this.camera);
     }
 
     /*マウスホバー時の挙動

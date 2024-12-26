@@ -290,24 +290,6 @@ header::before{
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
 }
 
-.model-viewer__display::after {
-    content: var(--model-title);
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
-    z-index: 4;
-    font-size: 4rem;
-    font-weight: 200;
-    color: #ff0000;
-    background-color: #d3d2d2;
-    mix-blend-mode: difference;
-    letter-spacing: 1px;
-    width: 70%;
-    border-radius: 2.5rem;
-    text-align: center;
-}
-
 /* 説明エリア */
 .model-viewer__discription {
     padding: 1rem;
