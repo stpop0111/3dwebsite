@@ -2,6 +2,10 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DirectionalLightHelper } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 
 //モデルデータのインポート
 import { MODEL_DATA } from "./model.js";
@@ -61,6 +65,7 @@ class MainVisual {
     =============================*/
     setupScene(){
         this.scene = new THREE.Scene();
+        this.scene.background = null;
     }
 
     /*カメラセットアップ
@@ -116,14 +121,18 @@ class MainVisual {
 
     }
 
-    /*レンダリングサイズ
+    /*レンダリング設定
     =============================*/
     setupRenderer(){
         //レンダラーの設定
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
+            premultipliedAlpha: false,
+            stencil: false,
         });
+
+        this.renderer.setClearColor(0x000000, 0);
 
         //レンダラーのサイズ設定
         this.renderer.setSize(
@@ -133,11 +142,53 @@ class MainVisual {
 
         this.canvas = this.renderer.domElement
         this.container.appendChild(this.canvas);
+
+        this.setupPostProcessing();
+    }
+
+    // ポストプロセス
+    setupPostProcessing(){
+
+        const renderTarget = new THREE.WebGLRenderTarget(
+            this.container.clientWidth,
+            this.container.clientHeight,
+            {
+                format: THREE.RGBAFormat,
+                alpha: true,
+                transparent: true,
+                premultipliedAlpha: false,
+                stencilBuffer: false,
+                depthBuffer: true,
+                encoding: THREE.sRGBEncoding
+            }
+        )
+        renderTarget.samples = 4;
+
+        const composer = new EffectComposer(this.renderer, renderTarget);
+
+        //レンダリング設定
+        const renderPass = new RenderPass(this.scene, this.camera);
+        renderPass.clear = true;  // 👈 追加
+        renderPass.clearColor = new THREE.Color(0, 0, 0);
+        renderPass.clearAlpha = 0;
+        composer.addPass(renderPass);
+    
+
+        const BloomPass = new UnrealBloomPass(
+            new THREE.Vector2(this.container.clientWidth,this.container.clientHeight),
+                0.5, //強度
+                0.4, //半径
+                0.85 //閾値
+        );
+        // BloomPass.renderToScreen = true;
+        composer.addPass(BloomPass);
+        // BloomPass.setClearColor(new THREE.Color(0x000000), 0);
+
+        this.composer = composer
     }
 
     /*モデルのロード
     ===================*/
-
     // ボタンの作成
     setupModelList(){
         //モデルリストの要素取得
@@ -268,8 +319,8 @@ class MainVisual {
             this.currentModel.rotation.y += delta * this.currentRotationSpeed;
             }
         }
-
-        this.renderer.render(this.scene, this.camera);
+        this.composer.render(this.clock.getDelta());
+        // this.renderer.render(this.scene, this.camera);
     }
 
     /*マウスホバー時の挙動
