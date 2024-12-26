@@ -116,23 +116,59 @@ class MainVisual {
 
     }
 
-    /*レンダリングサイズ
+    /*レンダリング設定
     =============================*/
     setupRenderer(){
         //レンダラーの設定
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
+            precision: 'highp',
+            powerPreference: 'high-performance',
         });
+
+        //物理ベースのレンダリング設定
+        this.renderer.physicallyCorrectLights = true;
+        this.renderer.outputEncoding = THREE.sRGBEncoding;
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        this.renderer.toneMappingExposure = 1.0;
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    
+        // 💡 HDRレンダリングの有効化
+        this.renderer.gammaFactor = 2.2;
+        this.renderer.gammaOutput = true;
 
         //レンダラーのサイズ設定
         this.renderer.setSize(
             this.container.clientWidth,
             this.container.clientHeight,
         );
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         this.canvas = this.renderer.domElement
         this.container.appendChild(this.canvas);
+
+        this.setupPostProcessing();
+    }
+
+    // ポストプロセス
+    setupPostProcessing(){
+        const composer = new EffectComposer(this.renderer)
+
+        const renderPass = new RenderPass(this.scene, this.camera);
+        composer.addPass(renderPass);
+
+        const ssaoPass = new SSAOPass(this.scene, this.camera);
+        composer.addPass(ssaoPass);
+
+        const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            1.5, 0.4, 0.85
+        );
+        composer.addPass(bloomPass)
+
+        this.composer = composer;
     }
 
     /*モデルのロード
