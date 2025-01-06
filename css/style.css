@@ -22,108 +22,12 @@ html, body, main, img{
     width: 100%;
     height: auto;
     box-sizing: border-box;
+    font-family: var(--font-main);
 }
 
 canvas{
     width: 100%;
     display: block;
-}
-
-/* ナビゲーション 
-============================*/
-header{
-    position: fixed;
-    width: 80vw;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2.5rem;
-    height: 6rem;
-    z-index: 10;
-    right: 50%;
-    transform: translateX(50%);
-    border-radius: 0 0 30px 30px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* ロゴ */
-.logo{
-    display: flex;
-    justify-items: center;
-    width: 400px;
-}
-
-/* ナビゲーションバー*/
-.gnav{
-    opacity: 1;
-    display: flex;
-    gap: var(--space-m);
-}
-
-.gnav__list{
-    height: 100%;
-    display: flex;
-    gap: 30px;
-}
-
-.gnav__item{
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-/* メインビジュアル
-============================*/
-.mainvisual{
-    position: relative;
-    height: 100vh;
-    min-height: 600px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1;
-}
-
-.mainvisual__image{
-    position: absolute;
-    width: 100%;
-    height: 200%;
-    z-index: -999;
-    top: -15%;
-}
-
-.mainvisual__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;  /* 絶対配置の時はほぼいる! */
-    filter: 
-    brightness(0.7)
-}
-
-
-.mainvisual__title{
-    font-size: 3rem;
-}
-
-.mainvisual__title img{
-    width: 100%;
-}
-
-/* マップセレクターコンテンツ
-============================*/
-.map-selector{
-    position: relative;
-    height: 100vh;
-    min-width: 800px;
-    bottom: -1.5rem;
-    z-index: 2;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 1rem;
 }
 
 /* モデルビューコンテンツ
@@ -136,7 +40,6 @@ header{
     justify-content: center;
     width: 100%;
     height: 100vh;
-    min-height: 1000px;
     gap: 2rem;
     background: var(--color-main);
     background-size: cover;

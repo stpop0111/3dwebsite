@@ -128,8 +128,6 @@ class MainVisual {
         this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
-            premultipliedAlpha: false,
-            stencil: false,
         });
 
         this.renderer.setClearColor(0x000000, 0);
@@ -180,11 +178,8 @@ class MainVisual {
                 0.4, //半径
                 0.85 //閾値
         );
-        // BloomPass.renderToScreen = true;
         composer.addPass(BloomPass);
-        // BloomPass.setClearColor(new THREE.Color(0x000000), 0);
-
-        this.composer = composer
+        this.composer = composer;
     }
 
     /*モデルのロード
@@ -319,8 +314,8 @@ class MainVisual {
             this.currentModel.rotation.y += delta * this.currentRotationSpeed;
             }
         }
-        this.composer.render(this.clock.getDelta());
-        // this.renderer.render(this.scene, this.camera);
+        // this.composer.render(this.clock.getDelta());
+        this.renderer.render(this.scene, this.camera);
     }
 
     /*マウスホバー時の挙動
